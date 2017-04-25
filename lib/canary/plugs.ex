@@ -101,7 +101,7 @@ defmodule Canary.Plugs do
     current_user = Map.fetch! conn.assigns, current_user_name
     action = get_action(conn)
 
-    Plug.Conn.assign(conn, :authorized, can?(current_user, action, _))
+    Plug.Conn.assign(conn, :authorized, can?(current_user, action))
   end
 
   def load_resource(conn, opts) do
