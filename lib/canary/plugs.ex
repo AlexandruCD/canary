@@ -86,6 +86,24 @@ defmodule Canary.Plugs do
   plug :load_resource, model: Post, id_name: "slug", id_field: "slug", only: [:show], persisted: true
   ```
   """
+  def authorize(conn, opts) do
+    if action_valid?(conn, opts) do
+      conn
+      |> authorize_action(opts) 
+      |> handle_unauthorized(opts)
+    else
+      conn
+    end  
+  end
+
+  defp authorize_action(conn, opts) do
+    current_user_name = opts[:current_user] || Application.get_env(:canary, :current_user, :current_user)
+    current_user = Map.fetch! conn.assigns, current_user_name
+    action = get_action(conn)
+
+    Plug.Conn.assign(conn, :authorized, can?(current_user, action, _))
+  end
+
   def load_resource(conn, opts) do
     if action_valid?(conn, opts) do
       conn
