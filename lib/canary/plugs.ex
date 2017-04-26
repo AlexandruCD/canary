@@ -88,7 +88,7 @@ defmodule Canary.Plugs do
   """
   def authorize(conn, opts) do
      IO.inspect opts[:actions]
-    if action_valid?(conn, opts) && opts[:actions] do
+    if action_valid?(conn, opts) && action in opts[:actions] do
       conn
       |> authorize_action(opts) 
       |> handle_unauthorized(opts)
