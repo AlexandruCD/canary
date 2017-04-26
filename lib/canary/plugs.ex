@@ -87,7 +87,7 @@ defmodule Canary.Plugs do
   ```
   """
   def authorize(conn, opts) do
-     IO.inspect opts[:actions]
+    action = get_action(conn)
     if action_valid?(conn, opts) && action in opts[:actions] do
       conn
       |> authorize_action(opts) 
