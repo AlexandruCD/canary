@@ -87,6 +87,7 @@ defmodule Canary.Plugs do
   ```
   """
   def authorize(conn, opts) do
+    IO.puts opts[:actions]
     if action_valid?(conn, opts) do
       conn
       |> authorize_action(opts) 
@@ -460,7 +461,6 @@ defmodule Canary.Plugs do
   end
 
   defp apply_error_handler(conn, handler_key, opts) do
-    IO.puts "ENTER HERE"
     handler = Keyword.get(opts, handler_key)
       || Application.get_env(:canary, handler_key)
 
